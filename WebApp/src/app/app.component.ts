@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'WebApp';
+  title = 'MonsterBox';
+  
+  value = '';
+
+  update(value: string) { this.value = value; }
+
+  clickedStart() {
+    console.log()
+  }
+
 }
