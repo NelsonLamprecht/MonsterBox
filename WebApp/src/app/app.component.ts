@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DeviceControllerService } from './services/devicecontroller/devicecontroller.service';
 
 @Component({
   selector: 'app-root',
@@ -6,14 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'MonsterBox';
-  
+  title = 'MonsterBox';  
   value = '';
+  deviceControllerService: DeviceControllerService;
 
-  update(value: string) { this.value = value; }
+  /**
+   *
+   */
+  constructor(deviceControllerService: DeviceControllerService) {    
+    this.deviceControllerService = deviceControllerService;
+  }
+
+  update(value: string) { 
+    this.value = value;
+    this.deviceControllerService.SetEndPoint(this.value);
+   }
 
   clickedStart() {
-    console.log()
+    this.deviceControllerService.Start();
   }
 
 }

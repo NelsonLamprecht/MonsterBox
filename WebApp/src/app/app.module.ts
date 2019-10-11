@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { GlobalComponentsModule } from '../modules/global-components-module';
+import { DeviceControllerService } from './services/devicecontroller/devicecontroller.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { GlobalComponentsModule } from '../modules/global-components-module';
     HttpClientModule,
     GlobalComponentsModule
   ],
-  providers: [],
+  providers: [
+    DeviceControllerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
