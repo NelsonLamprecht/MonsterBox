@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { MonsterBoxRequest } from 'src/app/models/monsterboxrequest';
@@ -21,19 +21,22 @@ export class DeviceControllerService {
   mbRequest: MonsterBoxRequest;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {    
+    
   }
 
   SetEndPoint(endpoint: string): void {
     this.endpointUrl = `http://` + endpoint + "/monsterbox"
   }
 
-  Start(): Observable<MonsterBoxRequest> {
-    if (this.validateEndPoint()) {      
-      return this.http.post<MonsterBoxRequest>(this.endpointUrl, this.mbRequest, httpOptions)
+  Start(): Observable<any> {
+    if (this.validateEndPoint()) {          
+      return this.http.post<any>(this.endpointUrl, this.mbRequest, httpOptions)
         .pipe(
-          catchError(this.handleError('Start', this.mbRequest))
-        );
+          catchError(err => {
+            console.log('Handling error locally and rethrowing it...', err);
+            return throwError(err);
+        }));
     }
     return of(null);
   }

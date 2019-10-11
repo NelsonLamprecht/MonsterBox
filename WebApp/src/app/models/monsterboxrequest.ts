@@ -1,4 +1,4 @@
 export interface MonsterBoxRequest {
-    id: number;
-    name: string;
+    command1: string,
+    command1Paramter: number;
   }
