@@ -7,22 +7,18 @@ import { catchError } from 'rxjs/operators';
 
 import { MonsterBoxRequest } from 'src/app/models/monsterboxrequest';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'   
-  })
-};
+const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
 @Injectable({
   providedIn: 'root'
-  })
+})
 export class DeviceControllerService {
   endpointUrl: string;
   mbRequest: MonsterBoxRequest;
 
 
-  constructor(private http: HttpClient) {    
-    
+  constructor(private http: HttpClient) {
+
   }
 
   SetEndPoint(endpoint: string): void {
@@ -31,12 +27,15 @@ export class DeviceControllerService {
 
   Start(): Observable<any> {
     if (this.validateEndPoint()) {          
-      return this.http.post<any>(this.endpointUrl, this.mbRequest, httpOptions)
+      return this.http.post<any>(
+        this.endpointUrl,
+        "START=0",
+        {headers: headers, responseType: 'text' as 'json'})
         .pipe(
           catchError(err => {
             console.log('Handling error locally and rethrowing it...', err);
             return throwError(err);
-        }));
+          }));
     }
     return of(null);
   }

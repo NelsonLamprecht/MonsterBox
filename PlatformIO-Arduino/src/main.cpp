@@ -1,33 +1,5 @@
 /* main.cpp - MonsterBox Main */
 
-/*
-   This is mostly a tool for testing and debugging the library, but can
-   also be used as an example of coding for it.
-
-   To use it,  enter one of the following USLs into your browser.
-   Replace "host" with the IP address assigned to the Arduino.
-
-   http://host/
-   http://host/index.html
-
-   These return a "success" HTTP result and display the parameters
-   (if any) passed to them as a single string,  without attempting to
-   parse them.  This is done with a call to defaultCmd.
-
-
-   http://host/raw.html
-
-   This is essentially the same as the index.html URL processing,
-   but is done by calling rawCmd.
-
-
-   http://host/parsed.html
-
-   This invokes parsedCmd,  which displays the "raw" parameter string,
-   but also uses the "nexyURLparam" routine to parse out the individual
-   parameters, and display them.
-*/
-
 #include "Arduino.h"
 #include "avr/pgmspace.h"
 #include "SPI.h"
@@ -161,6 +133,7 @@ void cmdMonsterBox(WebServer &server, WebServer::ConnectionType type, char *url_
 
   /* sends OK headers back to the browser */
   server.httpSuccess();
+  
   if (type != WebServer::POST) {
     return;
   }
@@ -210,37 +183,7 @@ void cmdDefault(WebServer &server, WebServer::ConnectionType type, char *url_tai
   server.print(url_tail);
   server.printP(Tail_end);
   server.printP(Page_end);
-}
-
-void cmdRaw(WebServer &server, WebServer::ConnectionType type, char *url_tail, bool tail_complete)
-{
-  /* sends OK headers back to the browser */
-  server.httpSuccess();
-
-  /* if we're handling a GET or POST, we can output our data here.
-     For a HEAD request, we just stop after outputting headers. */
-  if (type == WebServer::HEAD)
-    return;
-
-  server.printP(Page_begin);
-  switch (type)
-  {
-    case WebServer::GET:
-      server.printP(Get_head);
-      break;
-    case WebServer::POST:
-      server.printP(Post_head);
-      break;
-    default:
-      server.printP(Unknown_head);
-  }
-
-  server.printP(Raw_head);
-  server.printP(tail_complete ? Good_tail_begin : Bad_tail_begin);
-  server.print(url_tail);
-  server.printP(Tail_end);
-  server.printP(Page_end);
-}
+} 
 
 void failCmd(WebServer &server, WebServer::ConnectionType type, char *url_tail, bool tail_complete)
 {

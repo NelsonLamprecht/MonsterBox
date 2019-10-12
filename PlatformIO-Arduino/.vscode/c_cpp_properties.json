@@ -6,8 +6,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-V3/include",
-                "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-V3/src",
+                "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-Arduino/include",
+                "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-Arduino/src",
                 "C:/Users/nelso/.platformio/lib/Ethernet_ID872/src",
                 "C:/Users/nelso/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
                 "C:/Users/nelso/.platformio/lib/StensTimer_ID1942/src",
@@ -23,8 +23,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-V3/include",
-                    "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-V3/src",
+                    "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-Arduino/include",
+                    "c:/Users/nelso/OneDrive/MonsterBox/PlatformIO-Arduino/src",
                     "C:/Users/nelso/.platformio/lib/Ethernet_ID872/src",
                     "C:/Users/nelso/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
                     "C:/Users/nelso/.platformio/lib/StensTimer_ID1942/src",
