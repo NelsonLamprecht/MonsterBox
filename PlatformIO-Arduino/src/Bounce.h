@@ -37,9 +37,10 @@ class Bounce : public IStensTimerListener {
       Timer* _timer;
       String _name = "Unknown";
       int _outputPin = -1;
+      long _counter;
       long _repetitions; //how many times to bounce
       long _delayTime; //how often to pause between repetitions
-      bool cancelToken = false;
+      bool _cancelToken = false;      
       void shake();      
       void cylinder(int randomAction);
       

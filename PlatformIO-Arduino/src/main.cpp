@@ -133,13 +133,11 @@ void cmdMonsterBox(WebServer &server, WebServer::ConnectionType type, char *url_
 
   /* sends OK headers back to the browser */
   server.httpSuccess();
-  
+
   if (type != WebServer::POST) {
     return;
   }
-  else {
-    server.printP(Html_begin);
-    server.printP(Page_begin);
+  else {    
     while (server.readPOSTparam(cmdName, NAMELEN, cmdValue, VALUELEN))
     {
       server.print(cmdName);
@@ -148,10 +146,7 @@ void cmdMonsterBox(WebServer &server, WebServer::ConnectionType type, char *url_
       server.printP(Tail_end);
       cmdExecute(cmdName, cmdValue);
     }
-  }
-  server.printP(Page_end);
-  server.printP(Html_end);
-  SerialPrintDebug("-----");
+  }  
 }
 
 /* commands are functions that get called by the webserver framework */   

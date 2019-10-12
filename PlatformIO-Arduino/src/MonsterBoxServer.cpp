@@ -15,7 +15,7 @@ MonsterBoxServer::MonsterBoxServer(int outputPin_L, int outputPin_R) {
 };
 
 long MonsterBoxServer::getRepetitions() {
-  Serial.print("MB GR: ");
+  Serial.print("MBS: GR: ");
   Serial.print(_repetitionLow);
   Serial.print(" - ");
   Serial.println(_repetitionHigh);
@@ -23,7 +23,7 @@ long MonsterBoxServer::getRepetitions() {
 }
 
 long MonsterBoxServer::getDelayTime() {
-  Serial.print("MB GDT: ");
+  Serial.print("MBS: GDT: ");
   Serial.print(_delayTimeLow);
   Serial.print(" - ");
   Serial.println(_delayTimeHigh);
@@ -46,7 +46,7 @@ void MonsterBoxServer::Run() {
 }
 
 void MonsterBoxServer::Start() {
-  Serial.println("MB START");
+  Serial.println("MBS: START: ");
   long _delayTime = getDelayTime();
   long _repetitions = getRepetitions();  
   _bounceLeft->SetDelayTime(_delayTime);
@@ -58,32 +58,32 @@ void MonsterBoxServer::Start() {
 }
 
 void MonsterBoxServer::Stop() {
-  Serial.println("MB STOP");
+  Serial.println("MBS: STOP: ");
   _bounceLeft->Stop();
   _bounceRight->Stop();
 }
 
 void MonsterBoxServer::SetRepetitionLow(long low) {
   _repetitionLow = low;
-  Serial.print("MB SRL: ");
+  Serial.print("MBS: SRL: ");
   Serial.println(_repetitionLow);
 }
 
 void MonsterBoxServer::SetRepetitionHigh(long high) {
   _repetitionHigh = high;
-  Serial.print("MB SRH: ");
+  Serial.print("MBS: SRH: ");
   Serial.println(_repetitionHigh);
 }
 
 void MonsterBoxServer::SetDelayTimeLow(long low) {
   _delayTimeLow = low;
-  Serial.print("MB SDL: ");
+  Serial.print("MBS: SDL: ");
   Serial.println(_delayTimeLow);
 }
 
 void MonsterBoxServer::SetDelayTimeHigh(long high) {
   _delayTimeHigh = high;
-  Serial.print("MB SDH: ");
+  Serial.print("MBS: SDH: ");
   Serial.println(_delayTimeHigh);
 }
 
