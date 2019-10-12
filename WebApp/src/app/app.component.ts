@@ -27,4 +27,8 @@ export class AppComponent {
     this.deviceControllerService.Start().subscribe();
   }
 
+  clickedStop() {
+    this.deviceControllerService.Stop().subscribe();
+  }
+
 }

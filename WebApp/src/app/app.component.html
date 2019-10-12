@@ -32,30 +32,7 @@
 
   .spacer {
     flex: 1;
-  }
-
-  .toolbar {
-    height: 60px;
-    margin: -8px;
-    display: flex;
-    align-items: center;
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-  }
-
-  .toolbar img {
-    margin: 0 16px;
-  }
-
-  .toolbar #twitter-logo {
-    height: 40px;
-    margin: 0 16px;
-  }
-
-  .toolbar #twitter-logo:hover {
-    opacity: 0.8;
-  }
+  }   
 
   .content {
     display: flex;
@@ -64,15 +41,6 @@
     max-width: 960px;
     flex-direction: column;
     align-items: center;
-  }
-
-  svg.material-icons {
-    height: 24px;
-    width: auto;
-  }
-
-  svg.material-icons:not(:last-child) {
-    margin-right: 8px;
   }
 
   .card svg.material-icons path {
@@ -196,11 +164,8 @@
 </style>
 
 <!-- Toolbar -->
-<div class="toolbar" role="banner">
-  <img width="40" alt="Angular Logo"
-    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
+<div class="toolbar" role="banner">  
   <span>Welcome</span>
-  <div class="spacer"></div>
 </div>
 
 <div class="content" role="main">
@@ -222,15 +187,12 @@
         </g>
       </g>
     </svg>
-    <span>{{ title }} app is running!</span>
+    <span>MonsterBox app {{value}}</span>
   </div>
 
   <div class="card-container">
     <div class="card card-small">
-      <input #box (keyup.enter)="update(box.value)" (blur)="update(box.value)">    
-      <div>
-        {{value}}
-      </div>
+      <input #box (keyup.enter)="update(box.value)" (blur)="update(box.value)">          
     </div>
   </div>
 
