@@ -34,7 +34,7 @@ P(Good_tail_begin) = "URL tail = '";
 P(Bad_tail_begin) = "INCOMPLETE URL tail = '";
 P(Tail_end) = "'<br>\n";
 P(Parsed_tail_begin) = "URL parameters:<br>\n";
-P(Parsed_item_separator) = ":'";
+P(Parsed_item_separator) = "=";
 P(Params_end) = "End of parameters<br>\n";
 P(Post_params_begin) = "Parameters sent:<br>\n";
 P(Line_break) = "<br>\n";
@@ -142,8 +142,7 @@ void cmdMonsterBox(WebServer &server, WebServer::ConnectionType type, char *url_
     {
       server.print(cmdName);
       server.printP(Parsed_item_separator);
-      server.print(cmdValue);
-      server.printP(Tail_end);
+      server.print(cmdValue);      
       cmdExecute(cmdName, cmdValue);
     }
   }  
