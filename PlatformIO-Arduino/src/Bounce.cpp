@@ -59,6 +59,8 @@ void Bounce::timerCallback(Timer *timer)
   {     
     Bounce::shake();    
     if (_counter == _repetitions) {
+      Serial.print("BOUNCE: REPETITIONS REACHED ");
+      Serial.println(_counter);
       Bounce::Stop();
     }    
   }
