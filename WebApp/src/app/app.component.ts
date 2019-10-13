@@ -8,20 +8,20 @@ import { DeviceControllerService } from './services/devicecontroller/devicecontr
 })
 export class AppComponent {
   title = 'MonsterBox';  
-  value = '';
+  deviceControllerHostName= '';
+  delaytimelow: number = 0;
+  delaytimehigh: number = 0;
+  repetitionslow: number = 0;
+  repetitionshigh: number = 0;
   deviceControllerService: DeviceControllerService;
 
-  /**
-   *
-   */
   constructor(deviceControllerService: DeviceControllerService) {    
     this.deviceControllerService = deviceControllerService;
   }
-
-  update(value: string) { 
-    this.value = value;
-    this.deviceControllerService.SetEndPoint(this.value);
-   }
+  
+  clickedConnect() {
+    console.log(this.deviceControllerHostName);
+  }
 
   clickedStart() {
     this.deviceControllerService.Start().subscribe();
@@ -29,6 +29,10 @@ export class AppComponent {
 
   clickedStop() {
     this.deviceControllerService.Stop().subscribe();
+  }
+
+  changeDelayTimeLow(event: MouseEvent) {
+    this.deviceControllerService.ChangeDelayTimeLow().subscribe();
   }
 
 }

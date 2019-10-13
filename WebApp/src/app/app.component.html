@@ -1,6 +1,5 @@
 <style>
-  :host {
-    font-family: "Segoe UI";
+  :host {    
     font-size: 14px;
     color: #333;
     box-sizing: border-box;
@@ -25,74 +24,6 @@
     flex: 1;
   }
 
-  .content {
-    display: flex;
-    margin: 32px auto;
-    padding: 0 16px;
-    max-width: 960px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 16px;
-  }
-
-  .card {
-    border-radius: 4px;
-    border: 1px solid #eee;
-    background-color: #fafafa;
-    height: 40px;
-    width: 200px;
-    margin: 0 8px 16px;
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease-in-out;
-    line-height: 24px;
-  }
-
-  .card-container .card:not(:last-child) {
-    margin-right: 0;
-  }
-
-  .card.card-small {
-    height: 16px;
-    width: 168px;
-  }
-
-  .card-container .card:not(.highlight-card) {
-    cursor: pointer;
-  }
-
-  .card-container .card:not(.highlight-card):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 17px rgba(black, 0.35);
-  }
-
-  .card-container .card:not(.highlight-card):hover .material-icons path {
-    fill: rgb(105, 103, 103);
-  }
-
-  .card.highlight-card {
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-    border: none;
-    width: auto;
-    min-width: 30%;
-    position: relative;
-  }
-
-  .card.card.highlight-card span {
-    margin-left: 60px;
-  }
-
   a,
   a:visited,
   a:hover {
@@ -104,41 +35,10 @@
     color: #125699;
   }
 
-  footer {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    line-height: 20px;
-  }
-
-  footer a {
-    display: flex;
-    align-items: center;
-  }
-
-
-
   /* Responsive Styles */
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 767px) {}
 
-    .card-container>*:not(.circle-link),
-    .terminal {
-      width: 100%;
-    }
-
-    .card:not(.highlight-card) {
-      height: 16px;
-      margin: 8px 0;
-    }
-
-    .card.highlight-card span {
-      margin-left: 72px;
-    }    
-  }
-
-  @media screen and (max-width: 575px) {
-   
-  }
+  @media screen and (max-width: 575px) {}
 </style>
 
 <!-- Toolbar -->
@@ -146,44 +46,73 @@
   <span>Welcome</span>
 </div>
 
-<div class="content" role="main">
-
-  <!-- Highlight Card -->
-  <div class="card highlight-card card-small"> 
-      
-      
-    <span>MonsterBox app {{value}}</span>
-  </div>
-
-  <div class="card-container">
-    <div class="card card-small">
-      <input #box (keyup.enter)="update(box.value)" (blur)="update(box.value)">
+<div class="container h-100" role="main">
+  <div class="row text-center">
+    <div class="col-12">
+      <span>MonsterBox App</span>
     </div>
   </div>
 
-  <!-- Links -->
-  <div class="card-container">
-    <div class="card card-small">
+  <div class="row text-center">
+    <div class="col-12">
+      <span class="ui-inputgroup-addon">http://</span>  
+      <input type="text" pInputText
+      placeholder="Hostname" 
+      [(ngModel)]="deviceControllerHostName">      
+      <span class="ui-inputgroup-addon">/monsterbox</span>  
+    </div>
+    <div class="col-12">
+      <button pButton type="button" 
+      label="Connect"    
+      class="ui-button-raised ui-button-primary"   
+      (click)="clickedConnect()"></button>
+    </div>
+  </div> 
+
+  <div class="row text-center">
+    <div class="col-12">
       <div>
-        <button (click)="clickedStart()">
-          <span>Start</span>
-        </button>
+        <p-spinner placeholder="delaytimelow"
+        [(ngModel)]="delaytimelow" 
+        (onChange)="changeDelayTimeLow($event)"
+        [min]="0" [max]="100"></p-spinner>
+      </div>
+      <div>
+        <p-spinner placeholder="delaytimehigh"
+        [(ngModel)]="delaytimehigh" 
+        [min]="0" [max]="100"></p-spinner>
+      </div>
+      <div>
+        <p-spinner placeholder="repetitionslow"
+        [(ngModel)]="repetitionslow" 
+        [min]="0" [max]="100"></p-spinner>
+      </div>
+      <div>
+        <p-spinner placeholder="repetitionshigh"
+        [(ngModel)]="repetitionshigh" 
+        [min]="0" [max]="100"></p-spinner>
       </div>
     </div>
-    <div class="card card-small">
-      <button (click)="clickedStop()">
-        <span>Stop</span>
-      </button>
+  </div>
+  <div class="row text-center">
+    <div class="col-12">
+      <button pButton type="button" 
+      label="Start"    
+      class="ui-button-raised ui-button-success"   
+      (click)="clickedStart()"></button>
     </div>
-    <div class="card card-small">
-        <p-spinner [(ngModel)]="val" [min]="0" [max]="100"></p-spinner>
-      </div>   
+  </div>
+  <div class="row text-center">
+    <div class="col-12">
+      <button pButton type="button" 
+      label="Stop" 
+      class="ui-button-raised ui-button-danger" 
+      (click)="clickedStop()"></button>
+    </div>
   </div>
 
   <!-- Footer -->
   <footer>
-
   </footer>
-
 
 </div>

@@ -15,12 +15,9 @@ const options = {headers: headers, responseType: 'text' as 'json'};
 })
 export class DeviceControllerService {
   endpointUrl: string;
-  mbRequest: MonsterBoxRequest;
-
-
-  constructor(private http: HttpClient) {
-
-  }
+  validEndPoint: boolean = false;
+    
+  constructor(private http: HttpClient) {  }
 
   SetEndPoint(endpoint: string): void {
     this.endpointUrl = `http://` + endpoint + "/monsterbox"
@@ -54,6 +51,10 @@ export class DeviceControllerService {
           }));
     }
     return of(null);
+  }
+
+  ChangeDelayTimeLow() {
+    throw new Error("Method not implemented.");
   }
 
   private handleError(eventName: string, object: any): any {
