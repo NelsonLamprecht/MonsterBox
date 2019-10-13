@@ -16,16 +16,17 @@ const options = {headers: headers, responseType: 'text' as 'json'};
 export class DeviceControllerService {
   endpointUrl: string;
   validEndPoint: boolean = false;
-    
+
   constructor(private http: HttpClient) {  }
 
-  SetEndPoint(endpoint: string): void {
-    this.endpointUrl = `http://` + endpoint + "/monsterbox"
+  SetEndPoint(endpoint: string): Observable<string> {
+    this.endpointUrl = `http://` + endpoint + "/monsterbox";    
+    return of(this.endpointUrl);    
   }
 
   Start(): Observable<any> {
     if (this.validateEndPoint()) {      
-      return this.http.post<any>(
+      var x = this.http.post<any>(
         this.endpointUrl,
         this.createStartRequest(),
         options)
@@ -34,6 +35,7 @@ export class DeviceControllerService {
             console.log('Handling error locally and rethrowing it...', err);
             return throwError(err);
           }));
+      console.log(x);
     }
     return of(null);
   }
