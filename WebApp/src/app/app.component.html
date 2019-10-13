@@ -42,29 +42,23 @@
 </style>
 
 <!-- Toolbar -->
-<div class="toolbar" role="banner">
-  <span>Welcome</span>
+<div class="toolbar justify-content-center" role="banner">
+    <span>MonsterBox</span>
 </div>
-
+{{deviceControllerHostName}}
 <div class="container h-100" role="main">
   <div class="row text-center">
-    <div class="col-12">
-      <span>MonsterBox App</span>
-    </div>
-  </div>
-
-  <div class="row text-center">
-    <div class="col-12">
-      <span class="ui-inputgroup-addon">http://</span>  
+    <div class="col-12">      
       <input type="text" pInputText
-      placeholder="Hostname" 
-      [(ngModel)]="deviceControllerHostName">      
-      <span class="ui-inputgroup-addon">/monsterbox</span>  
+      placeholder="http://hostname" 
+      class="ui-input-wide"
+      (ngModelChange)="changedHostName($event)"
+      [(ngModel)]="deviceControllerHostName">     
     </div>
     <div class="col-12">
       <button pButton type="button" 
       label="Connect"    
-      class="ui-button-raised ui-button-primary"   
+      class="ui-button-raised ui-button-primary ui-button-wide"   
       (click)="clickedConnect()"></button>
     </div>
   </div> 
@@ -98,7 +92,7 @@
     <div class="col-12">
       <button pButton type="button" 
       label="Start"    
-      class="ui-button-raised ui-button-success"   
+      class="ui-button-raised ui-button-success ui-button-wide"   
       (click)="clickedStart()"></button>
     </div>
   </div>
@@ -106,7 +100,7 @@
     <div class="col-12">
       <button pButton type="button" 
       label="Stop" 
-      class="ui-button-raised ui-button-danger" 
+      class="ui-button-raised ui-button-danger ui-button-wide" 
       (click)="clickedStop()"></button>
     </div>
   </div>

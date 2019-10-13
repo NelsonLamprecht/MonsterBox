@@ -8,7 +8,7 @@ import { DeviceControllerService } from './services/devicecontroller/devicecontr
 })
 export class AppComponent {
   title = 'MonsterBox';  
-  deviceControllerHostName= '';
+  deviceControllerHostName = '';
   delaytimelow: number = 0;
   delaytimehigh: number = 0;
   repetitionslow: number = 0;
@@ -17,6 +17,10 @@ export class AppComponent {
 
   constructor(deviceControllerService: DeviceControllerService) {    
     this.deviceControllerService = deviceControllerService;
+  }
+
+  changedHostName(event) {    
+    console.log(event);
   }
   
   clickedConnect() {
