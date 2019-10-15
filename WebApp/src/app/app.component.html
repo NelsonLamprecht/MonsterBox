@@ -50,13 +50,13 @@
     <div class="col-12">      
       <input type="text" pInputText
       placeholder="hostname"
-      class="ui-wide-50"      
+      class="ui-width-50"      
       [(ngModel)]="deviceControllerHostName">     
     </div>
     <div class="col-12">
       <button pButton type="button" 
       label="Connect"    
-      class="ui-button-raised ui-button-primary ui-wide-50"   
+      class="ui-button-raised ui-button-primary ui-width-50"   
       (click)="clickedConnect()"></button>
     </div>
     <div class="col-12">
@@ -68,7 +68,7 @@
       <div>
         <p-spinner placeholder="delaytimelow"
         [(ngModel)]="delaytimelow" 
-        inputStyleClass="ui-wide-50"
+        inputStyleClass="ui-width-50"
         (onChange)="changeDelayTimeLow($event)"
         [min]="0" [max]="100"></p-spinner>
       </div>
@@ -93,7 +93,7 @@
     <div class="col-12">
       <button pButton type="button" 
       label="Start"    
-      class="ui-button-raised ui-button-success ui-wide-50"   
+      class="ui-button-raised ui-button-success ui-width-50"   
       (click)="clickedStart()"></button>
     </div>
   </div>
@@ -101,13 +101,19 @@
     <div class="col-12">
       <button pButton type="button" 
       label="Stop" 
-      class="ui-button-raised ui-button-danger ui-wide-50" 
+      class="ui-button-raised ui-button-danger ui-width-50" 
       (click)="clickedStop()"></button>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
+      <p-toast [style]="{marginTop: '80px'}" 
+      styleClass="custom-toast" 
+      key="deviceresponse" 
+      position="bottom-center"
+      life="500"
+      ></p-toast>
   </footer>
 
 </div>

@@ -17,7 +17,17 @@
     margin: 0 16px;
   } 
 
-  .ui-wide-50
-   {
+ .ui-width-50 {
     width: 50%;
   }
+
+  .ui-height-4rem {
+    height: 4rem;
+  }
+
+  :host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
