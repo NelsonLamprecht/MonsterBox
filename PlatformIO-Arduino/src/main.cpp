@@ -1,33 +1,5 @@
 /* main.cpp - MonsterBox Main */
 
-/*
-   This is mostly a tool for testing and debugging the library, but can
-   also be used as an example of coding for it.
-
-   To use it,  enter one of the following USLs into your browser.
-   Replace "host" with the IP address assigned to the Arduino.
-
-   http://host/
-   http://host/index.html
-
-   These return a "success" HTTP result and display the parameters
-   (if any) passed to them as a single string,  without attempting to
-   parse them.  This is done with a call to defaultCmd.
-
-
-   http://host/raw.html
-
-   This is essentially the same as the index.html URL processing,
-   but is done by calling rawCmd.
-
-
-   http://host/parsed.html
-
-   This invokes parsedCmd,  which displays the "raw" parameter string,
-   but also uses the "nexyURLparam" routine to parse out the individual
-   parameters, and display them.
-*/
-
 #include "Arduino.h"
 #include "avr/pgmspace.h"
 #include "SPI.h"
@@ -39,8 +11,7 @@
 #include "MonsterBoxUtility.h"
 #include "MonsterBoxServer.h"
 #define VERSION_STRING "2.1"
-
-static bool SerialDebug = true;
+#define SerialDebug false
 
 /* MAC Address */
 /* CHANGE THIS TO YOUR OWN UNIQUE VALUE FOR YOUR NETWORK */
@@ -62,7 +33,7 @@ P(Good_tail_begin) = "URL tail = '";
 P(Bad_tail_begin) = "INCOMPLETE URL tail = '";
 P(Tail_end) = "'<br>\n";
 P(Parsed_tail_begin) = "URL parameters:<br>\n";
-P(Parsed_item_separator) = ":'";
+P(Parsed_item_separator) = "=";
 P(Params_end) = "End of parameters<br>\n";
 P(Post_params_begin) = "Parameters sent:<br>\n";
 P(Line_break) = "<br>\n";
@@ -84,23 +55,23 @@ void SerialPrintDebug(const int message) {
 }
 
 int parseInput(char* inputValue) {
-  if (strcmp(inputValue, MonsterBoxServer::CMD_STOP) == 0) {
-    return 10;
-  }
-  else if (strcmp(inputValue, MonsterBoxServer::CMD_START) == 0) {
-    return 20;
+  if (strcmp(inputValue, MonsterBoxServer::CMD_START) == 0) {
+    return MonsterBoxServer::START;
+  }  
+  else if (strcmp(inputValue, MonsterBoxServer::CMD_STOP) == 0) {
+    return MonsterBoxServer::STOP;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETDELAYTIMELOW) == 0) {
-    return 30;
+    return MonsterBoxServer::SETDELAYTIMELOW;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETDELAYTIMEHIGH) == 0) {
-    return 31;
+    return MonsterBoxServer::SETDELAYTIMEHIGH;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETREPETITIONSLOW) == 0) {
-    return 40;
+    return MonsterBoxServer::SETREPETITIONSLOW;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETREPETITIONSHIGH) == 0) {
-    return 41;
+    return MonsterBoxServer::SETREPETITIONSHIGH;
   }
   else {
     if (isDigit(inputValue[0])) {
@@ -116,34 +87,28 @@ void cmdExecute(char* inputName, char* inputValue) {
   int name = parseInput(inputName);  
   int value = parseInput(inputValue);  
   switch (name) {    
-    case MonsterBoxServer::STOP:
-      SerialPrintDebug("EXEC: STOP");
-      //SerialPrintDebug(value);  
-      monsterBoxServer.Stop();      
-      break;
     case MonsterBoxServer::START:
-      SerialPrintDebug("EXEC: START");      
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: START");            
       monsterBoxServer.Start();        
       break;
+    case MonsterBoxServer::STOP:
+      SerialPrintDebug("EXEC: STOP");      
+      monsterBoxServer.Stop();      
+      break;    
     case MonsterBoxServer::SETDELAYTIMELOW:      
-      SerialPrintDebug("EXEC: SETDELAYTIMELOW");            
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETDELAYTIMELOW");                  
       monsterBoxServer.SetDelayTimeLow(value);
       break;
     case MonsterBoxServer::SETDELAYTIMEHIGH:      
-      SerialPrintDebug("EXEC: SETDELAYTIMEHIGH");            
-      //SerialPrintDebug(value);
+      SerialPrintDebug("EXEC: SETDELAYTIMEHIGH");                  
       monsterBoxServer.SetDelayTimeHigh(value);
       break;
     case MonsterBoxServer::SETREPETITIONSLOW:     
-      SerialPrintDebug("EXEC: SETREPETITIONSLOW");                
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETREPETITIONSLOW");                 
       monsterBoxServer.SetRepetitionLow(value);
       break;
     case MonsterBoxServer::SETREPETITIONSHIGH:     
-      SerialPrintDebug("EXEC: SETREPETITIONSHIGH");                
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETREPETITIONSHIGH");                      
       monsterBoxServer.SetRepetitionHigh(value);
       break;
     
@@ -161,24 +126,19 @@ void cmdMonsterBox(WebServer &server, WebServer::ConnectionType type, char *url_
 
   /* sends OK headers back to the browser */
   server.httpSuccess();
+
   if (type != WebServer::POST) {
     return;
   }
-  else {
-    server.printP(Html_begin);
-    server.printP(Page_begin);
+  else {    
     while (server.readPOSTparam(cmdName, NAMELEN, cmdValue, VALUELEN))
     {
       server.print(cmdName);
       server.printP(Parsed_item_separator);
-      server.print(cmdValue);
-      server.printP(Tail_end);
+      server.print(cmdValue);      
       cmdExecute(cmdName, cmdValue);
     }
-  }
-  server.printP(Page_end);
-  server.printP(Html_end);
-  SerialPrintDebug("-----");
+  }  
 }
 
 /* commands are functions that get called by the webserver framework */   
@@ -210,37 +170,7 @@ void cmdDefault(WebServer &server, WebServer::ConnectionType type, char *url_tai
   server.print(url_tail);
   server.printP(Tail_end);
   server.printP(Page_end);
-}
-
-void cmdRaw(WebServer &server, WebServer::ConnectionType type, char *url_tail, bool tail_complete)
-{
-  /* sends OK headers back to the browser */
-  server.httpSuccess();
-
-  /* if we're handling a GET or POST, we can output our data here.
-     For a HEAD request, we just stop after outputting headers. */
-  if (type == WebServer::HEAD)
-    return;
-
-  server.printP(Page_begin);
-  switch (type)
-  {
-    case WebServer::GET:
-      server.printP(Get_head);
-      break;
-    case WebServer::POST:
-      server.printP(Post_head);
-      break;
-    default:
-      server.printP(Unknown_head);
-  }
-
-  server.printP(Raw_head);
-  server.printP(tail_complete ? Good_tail_begin : Bad_tail_begin);
-  server.print(url_tail);
-  server.printP(Tail_end);
-  server.printP(Page_end);
-}
+} 
 
 void failCmd(WebServer &server, WebServer::ConnectionType type, char *url_tail, bool tail_complete)
 {

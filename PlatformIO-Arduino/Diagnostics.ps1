@@ -67,9 +67,9 @@ function mb_setrepetitionshigh() {
 }
 
 cls
-mb_stop
-mb_setdelaytimelow
-mb_setdelaytimehigh
-mb_setrepetitionslow
-mb_setrepetitionshigh
+#mb_stop
+#mb_setdelaytimelow
+#mb_setdelaytimehigh
+#mb_setrepetitionslow
+#mb_setrepetitionshigh
 mb_start

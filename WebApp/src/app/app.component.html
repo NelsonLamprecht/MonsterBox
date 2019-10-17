@@ -1,0 +1,114 @@
+<style>
+  :host {
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h6,
+  h6 {
+    margin: 8px 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  a,
+  a:visited,
+  a:hover {
+    color: #1976d2;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #125699;
+  }
+
+  /* Responsive Styles */
+  @media screen and (max-width: 767px) {}
+
+  @media screen and (max-width: 575px) {}
+</style>
+
+<!-- Toolbar -->
+<div class="toolbar justify-content-center" role="banner">
+  <span>MonsterBox</span>
+</div>
+<div class="container h-100" role="main">
+  <div class="row text-center">
+    <div class="col-12">
+      <div *ngIf="MonsterBox_IsConnected">
+        {{deviceEndPoint}}
+      </div>
+      <div *ngIf="!MonsterBox_IsConnected">
+        <input type="text" pInputText placeholder="hostname" class="ui-width-50" [(ngModel)]="deviceControllerHostName">
+      </div>
+    </div>
+    <div class="col-12" *ngIf="!MonsterBox_IsConnected">
+      <button pButton type="button" label="Connect" class="ui-button-raised ui-button-primary ui-width-50"
+        (click)="clickedConnect()"></button>
+    </div>
+    <div class="col-12" *ngIf="MonsterBox_IsConnected">
+      <button pButton type="button" label="Start" class="ui-button-raised ui-button-success ui-width-50"
+        [disabled]="!MonsterBox_IsConnected"
+        (click)="clickedStart()"></button>
+    </div>
+    <div class="col-12" *ngIf="MonsterBox_IsConnected">
+      <button pButton type="button" label="Stop" class="ui-button-raised ui-button-danger ui-width-50"
+        [disabled]="!MonsterBox_IsConnected"
+        (click)="clickedStop()"></button>
+    </div>    
+  </div>
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
+    <div class="col-12">
+      <h6>Delay Time Low</h6>
+      <p-spinner 
+      [disabled]="!MonsterBox_IsConnected"
+      [(ngModel)]="delaytimelow" 
+      (ngModelChange)="changeDelayTimeLow($event)" [min]="50" [max]="100"></p-spinner>
+    </div>
+  </div>
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
+    <div class="col-12">
+      <h6>Delay Time High</h6>
+      <p-spinner       
+      [disabled]="!MonsterBox_IsConnected"
+      [(ngModel)]="delaytimehigh" 
+      (ngModelChange)="changeDelayTimeHigh($event)" [min]="200" [max]="400"></p-spinner>
+    </div>
+  </div>
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
+    <div class="col-12">
+      <h6>Repetitions Low</h6>
+      <p-spinner 
+      [disabled]="!MonsterBox_IsConnected"
+      [(ngModel)]="repetitionslow" 
+      (ngModelChange)="changeRepetitionsLow($event)" [min]="5" [max]="10"></p-spinner>
+    </div>
+  </div>
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
+    <div class="col-12">
+      <h6>Repetitions High</h6>
+      <p-spinner 
+      [disabled]="!MonsterBox_IsConnected"
+      [(ngModel)]="repetitionshigh" 
+      (ngModelChange)="changeRepetitionsHigh($event)" [min]="10" [max]="20"></p-spinner>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+    <p-toast [style]="{marginTop: '80px'}" styleClass="custom-toast" key="deviceresponse" position="bottom-center"
+      life="500"></p-toast>
+  </footer>
+</div>

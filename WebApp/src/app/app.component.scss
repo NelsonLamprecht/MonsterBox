@@ -1,0 +1,39 @@
+.container {
+  height: 100%;
+  min-height: 100%;
+}
+
+.toolbar {
+    height: 60px;    
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+.toolbar img {
+    margin: 0 16px;
+  } 
+
+.ui-button-raised {
+  padding: 25px;
+  margin: 10px 0;
+  font-size: 3em;
+}
+
+ .ui-width-50 {
+    width: 50%;
+  }
+
+  .ui-height-4rem {
+    height: 4rem;
+  }
+
+  :host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
