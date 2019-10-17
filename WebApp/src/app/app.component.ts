@@ -14,7 +14,7 @@ import { DeviceControllerService } from './services/devicecontroller/devicecontr
 
 export class AppComponent {
   private MonsterBox_Hostname_Cookie: string = "MonsterBox_Hostname";
-  private MonsterBox_IsConnected: boolean = false;
+  MonsterBox_IsConnected: boolean = false;
   delaytimelow: number = 50;
   delaytimehigh: number = 200;
   repetitionslow: number = 5;
