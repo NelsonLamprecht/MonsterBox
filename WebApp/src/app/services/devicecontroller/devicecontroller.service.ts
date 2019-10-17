@@ -29,6 +29,19 @@ export class DeviceControllerService {
     return of(null);
   }
 
+  Connect(): Observable<any> {
+    let subject = new Subject();
+    if (this.validateEndPoint()) {
+        subject.next(true)
+        subject.complete();
+    }
+    else {
+      subject.next(false);   
+      subject.complete();   
+    }
+    return subject;
+  }
+
   Start(): Observable<any> {    
     let subject = new Subject();
     if (this.validateEndPoint()) {      
