@@ -48,27 +48,29 @@
 <div class="container h-100" role="main">
   <div class="row text-center">
     <div class="col-12">
-      <div>{{deviceEndPoint}}</div>
-      <div>
+      <div *ngIf="MonsterBox_IsConnected">
+        {{deviceEndPoint}}
+      </div>
+      <div *ngIf="!MonsterBox_IsConnected">
         <input type="text" pInputText placeholder="hostname" class="ui-width-50" [(ngModel)]="deviceControllerHostName">
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="!MonsterBox_IsConnected">
       <button pButton type="button" label="Connect" class="ui-button-raised ui-button-primary ui-width-50"
         (click)="clickedConnect()"></button>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="MonsterBox_IsConnected">
       <button pButton type="button" label="Start" class="ui-button-raised ui-button-success ui-width-50"
         [disabled]="!MonsterBox_IsConnected"
         (click)="clickedStart()"></button>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="MonsterBox_IsConnected">
       <button pButton type="button" label="Stop" class="ui-button-raised ui-button-danger ui-width-50"
         [disabled]="!MonsterBox_IsConnected"
         (click)="clickedStop()"></button>
     </div>    
   </div>
-  <div class="row text-center">
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
     <div class="col-12">
       <h6>Delay Time Low</h6>
       <p-spinner 
@@ -77,7 +79,7 @@
       (ngModelChange)="changeDelayTimeLow($event)" [min]="50" [max]="100"></p-spinner>
     </div>
   </div>
-  <div class="row text-center">
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
     <div class="col-12">
       <h6>Delay Time High</h6>
       <p-spinner       
@@ -86,7 +88,7 @@
       (ngModelChange)="changeDelayTimeHigh($event)" [min]="200" [max]="400"></p-spinner>
     </div>
   </div>
-  <div class="row text-center">
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
     <div class="col-12">
       <h6>Repetitions Low</h6>
       <p-spinner 
@@ -95,7 +97,7 @@
       (ngModelChange)="changeRepetitionsLow($event)" [min]="5" [max]="10"></p-spinner>
     </div>
   </div>
-  <div class="row text-center">
+  <div class="row text-center" *ngIf="MonsterBox_IsConnected">
     <div class="col-12">
       <h6>Repetitions High</h6>
       <p-spinner 
