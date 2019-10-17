@@ -11,8 +11,7 @@
 #include "MonsterBoxUtility.h"
 #include "MonsterBoxServer.h"
 #define VERSION_STRING "2.1"
-
-static bool SerialDebug = true;
+#define SerialDebug false
 
 /* MAC Address */
 /* CHANGE THIS TO YOUR OWN UNIQUE VALUE FOR YOUR NETWORK */
@@ -56,23 +55,23 @@ void SerialPrintDebug(const int message) {
 }
 
 int parseInput(char* inputValue) {
-  if (strcmp(inputValue, MonsterBoxServer::CMD_STOP) == 0) {
-    return 10;
-  }
-  else if (strcmp(inputValue, MonsterBoxServer::CMD_START) == 0) {
-    return 20;
+  if (strcmp(inputValue, MonsterBoxServer::CMD_START) == 0) {
+    return MonsterBoxServer::START;
+  }  
+  else if (strcmp(inputValue, MonsterBoxServer::CMD_STOP) == 0) {
+    return MonsterBoxServer::STOP;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETDELAYTIMELOW) == 0) {
-    return 30;
+    return MonsterBoxServer::SETDELAYTIMELOW;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETDELAYTIMEHIGH) == 0) {
-    return 31;
+    return MonsterBoxServer::SETDELAYTIMEHIGH;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETREPETITIONSLOW) == 0) {
-    return 40;
+    return MonsterBoxServer::SETREPETITIONSLOW;
   }
   else if (strcmp(inputValue, MonsterBoxServer::CMD_SETREPETITIONSHIGH) == 0) {
-    return 41;
+    return MonsterBoxServer::SETREPETITIONSHIGH;
   }
   else {
     if (isDigit(inputValue[0])) {
@@ -88,34 +87,28 @@ void cmdExecute(char* inputName, char* inputValue) {
   int name = parseInput(inputName);  
   int value = parseInput(inputValue);  
   switch (name) {    
-    case MonsterBoxServer::STOP:
-      SerialPrintDebug("EXEC: STOP");
-      //SerialPrintDebug(value);  
-      monsterBoxServer.Stop();      
-      break;
     case MonsterBoxServer::START:
-      SerialPrintDebug("EXEC: START");      
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: START");            
       monsterBoxServer.Start();        
       break;
+    case MonsterBoxServer::STOP:
+      SerialPrintDebug("EXEC: STOP");      
+      monsterBoxServer.Stop();      
+      break;    
     case MonsterBoxServer::SETDELAYTIMELOW:      
-      SerialPrintDebug("EXEC: SETDELAYTIMELOW");            
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETDELAYTIMELOW");                  
       monsterBoxServer.SetDelayTimeLow(value);
       break;
     case MonsterBoxServer::SETDELAYTIMEHIGH:      
-      SerialPrintDebug("EXEC: SETDELAYTIMEHIGH");            
-      //SerialPrintDebug(value);
+      SerialPrintDebug("EXEC: SETDELAYTIMEHIGH");                  
       monsterBoxServer.SetDelayTimeHigh(value);
       break;
     case MonsterBoxServer::SETREPETITIONSLOW:     
-      SerialPrintDebug("EXEC: SETREPETITIONSLOW");                
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETREPETITIONSLOW");                 
       monsterBoxServer.SetRepetitionLow(value);
       break;
     case MonsterBoxServer::SETREPETITIONSHIGH:     
-      SerialPrintDebug("EXEC: SETREPETITIONSHIGH");                
-      //SerialPrintDebug(value);  
+      SerialPrintDebug("EXEC: SETREPETITIONSHIGH");                      
       monsterBoxServer.SetRepetitionHigh(value);
       break;
     

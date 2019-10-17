@@ -17,8 +17,9 @@ class MonsterBoxServer {
     void SetDelayTimeHigh(long high);    
     enum CommandAction
     {
-      STOP = 10,
-      START = 20,
+      CONNECT = 5,
+      START = 10,
+      STOP = 20,      
       SETDELAYTIMELOW = 30,
       SETDELAYTIMEHIGH = 31,      
       SETREPETITIONSLOW = 40,
@@ -35,10 +36,10 @@ class MonsterBoxServer {
   private:
     const int RELAY_ON = 0;
     const int RELAY_OFF = 1;
-    long _repetitionLow = 5L;
-    long _repetitionHigh = 10L;
     long _delayTimeLow = 50L;
     long _delayTimeHigh = 200L;
+    long _repetitionLow = 5L;
+    long _repetitionHigh = 10L;    
     int _outputPin_L;
     int _outputPin_R;
     StensTimer *_stensTimer = NULL;
