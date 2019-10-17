@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpUserEvent } from '@angular/common/http';
 import { isNullOrUndefined } from 'util';
 
-import { Observable, of, throwError, Subject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 const httpOptions: { headers; observe; responseType; } = {
@@ -29,12 +29,11 @@ export class DeviceControllerService {
     return of(null);
   }
 
-  Start(): Observable<any> {
-    //compose new observable
+  Start(): Observable<any> {    
     let subject = new Subject();
     if (this.validateEndPoint()) {      
       this.sendStart().subscribe((r: HttpResponse<string>) => {        
-        if (this.validateStartResponse(r)) {
+        if (this.validateResponse(r, this.createStartRequest())) {
           subject.next(true);          
         }
         else {
@@ -50,13 +49,12 @@ export class DeviceControllerService {
     return subject;
   }
 
-  Stop(): Observable<any> {
-   //compose new observable
-   let subject = new Subject();
+  Stop(): Observable<boolean> {   
+   let subject = new Subject<boolean>();
    if (this.validateEndPoint()) {      
      this.sendStop().subscribe((r: HttpResponse<string>) => {        
-       if (this.validateStopResponse(r)) {
-         subject.next('x');          
+       if (this.validateResponse(r, this.createStopRequest())) {
+         subject.next(true);          
        }
        else {
          subject.next(false);          
@@ -71,8 +69,84 @@ export class DeviceControllerService {
    return subject;
   }
 
-  ChangeDelayTimeLow(): Observable<string> {
-    throw new Error("Method not implemented.");
+  SetDelayTimeLow(value: number): Observable<boolean> {
+    let subject = new Subject<boolean>();
+   if (this.validateEndPoint()) {      
+     this.sendSetDelayTimeLow(value).subscribe((r: HttpResponse<string>) => {        
+       if (this.validateResponse(r, this.createSetDelayTimeLowRequest(value))) {
+         subject.next(true);          
+       }
+       else {
+         subject.next(false);          
+       }        
+       subject.complete();
+     });         
+   }
+   else {
+     subject.next(false);
+     subject.complete();
+   }
+   return subject;
+  }
+
+  SetDelayTimeHigh(value: number): Observable<boolean> {
+    let subject = new Subject<boolean>();
+   if (this.validateEndPoint()) {      
+     this.sendSetDelayTimeHigh(value).subscribe((r: HttpResponse<string>) => {        
+       if (this.validateResponse(r, this.createSetDelayTimeHighRequest(value))) {
+         subject.next(true);          
+       }
+       else {
+         subject.next(false);          
+       }        
+       subject.complete();
+     });         
+   }
+   else {
+     subject.next(false);
+     subject.complete();
+   }
+   return subject;
+  }
+
+  SetRepetitionsLow(value: number): Observable<boolean> {
+    let subject = new Subject<boolean>();
+   if (this.validateEndPoint()) {      
+     this.sendSetRepetitionsLow(value).subscribe((r: HttpResponse<string>) => {        
+       if (this.validateResponse(r, this.createSetRepetitionsLowRequest(value))) {
+         subject.next(true);          
+       }
+       else {
+         subject.next(false);          
+       }        
+       subject.complete();
+     });         
+   }
+   else {
+     subject.next(false);
+     subject.complete();
+   }
+   return subject;
+  }
+
+  SetRepetitionsHigh(value: number): Observable<boolean> {
+    let subject = new Subject<boolean>();
+   if (this.validateEndPoint()) {      
+     this.sendSetRepetitionsHigh(value).subscribe((r: HttpResponse<string>) => {        
+       if (this.validateResponse(r, this.createSetRepetitionsHighRequest(value))) {
+         subject.next(true);          
+       }
+       else {
+         subject.next(false);          
+       }        
+       subject.complete();
+     });         
+   }
+   else {
+     subject.next(false);
+     subject.complete();
+   }
+   return subject;
   }
 
   /**
@@ -122,8 +196,48 @@ export class DeviceControllerService {
       .pipe(catchError(this.handleError('sendStop', [])));
   }
 
-  private validateStartResponse(httpResponse: HttpResponse<string>): boolean {
-    if (httpResponse.status == 200 && httpResponse.body == "START=0") {
+  private sendSetDelayTimeLow(value: number) : Observable<any[] | HttpSentEvent | 
+  HttpHeaderResponse | HttpProgressEvent | 
+  HttpResponse<any> | HttpUserEvent<any>> {
+    return this.http.post<any>(
+      this.endpointUrl,
+      this.createSetDelayTimeLowRequest(value),
+      httpOptions)
+      .pipe(catchError(this.handleError('sendSetDelayTimeLow', [])));
+  }
+
+  private sendSetDelayTimeHigh(value: number) : Observable<any[] | HttpSentEvent | 
+  HttpHeaderResponse | HttpProgressEvent | 
+  HttpResponse<any> | HttpUserEvent<any>> {
+    return this.http.post<any>(
+      this.endpointUrl,
+      this.createSetDelayTimeHighRequest(value),
+      httpOptions)
+      .pipe(catchError(this.handleError('sendSetDelayTimeHigh', [])));
+  } 
+
+  private sendSetRepetitionsLow(value: number) : Observable<any[] | HttpSentEvent | 
+  HttpHeaderResponse | HttpProgressEvent | 
+  HttpResponse<any> | HttpUserEvent<any>> {
+    return this.http.post<any>(
+      this.endpointUrl,
+      this.createSetRepetitionsLowRequest(value),
+      httpOptions)
+      .pipe(catchError(this.handleError('sendSetRepetitionsLow', [])));
+  }
+
+  private sendSetRepetitionsHigh(value: number) : Observable<any[] | HttpSentEvent | 
+  HttpHeaderResponse | HttpProgressEvent | 
+  HttpResponse<any> | HttpUserEvent<any>> {
+    return this.http.post<any>(
+      this.endpointUrl,
+      this.createSetRepetitionsHighRequest(value),
+      httpOptions)
+      .pipe(catchError(this.handleError('sendSetRepetitionsHigh', [])));
+  } 
+
+  private validateResponse(httpResponse: HttpResponse<string>, expectedDeviceResponse: string): boolean {
+    if (httpResponse.status == 200 && httpResponse.body == expectedDeviceResponse) {
       return true;
     }
     else {
@@ -131,21 +245,28 @@ export class DeviceControllerService {
     }
   }
 
-  private validateStopResponse(httpResponse: HttpResponse<string>): boolean {
-    if (httpResponse.status == 200 && httpResponse.body == "STOP=0") {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  private createStartRequest() {
+  private createStartRequest(): string {
     return this.createRequest("START", 0);
   }
 
-  private createStopRequest() {
+  private createStopRequest() : string {
     return this.createRequest("STOP", 0);
+  }
+
+  private createSetDelayTimeLowRequest(value: number) : string {
+    return this.createRequest("SETDELAYTIMELOW", value);
+  }
+
+  private createSetDelayTimeHighRequest(value: number) : string {
+    return this.createRequest("SETDELAYTIMEHIGH", value);
+  }
+
+  private createSetRepetitionsLowRequest(value: number) : string {
+    return this.createRequest("SETREPETITIONSLOW", value);
+  }
+
+  private createSetRepetitionsHighRequest(value: number) : string {
+    return this.createRequest("SETREPETITIONSHIGH", value);
   }
 
   private createRequest(parameterName: string, parameterValue: string | number): string {

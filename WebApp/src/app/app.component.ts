@@ -12,8 +12,9 @@ import { DeviceControllerService } from './services/devicecontroller/devicecontr
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {  
+export class AppComponent {
   private MonsterBox_Hostname_Cookie: string = "MonsterBox_Hostname";
+  private MonsterBox_IsConnected: boolean = false;
   delaytimelow: number = 0;
   delaytimehigh: number = 0;
   repetitionslow: number = 0;
@@ -22,7 +23,7 @@ export class AppComponent {
   deviceEndPoint: string;
 
   constructor(
-    private cookieService: CookieService, 
+    private cookieService: CookieService,
     private messageService: MessageService,
     private deviceControllerService: DeviceControllerService) {
     var cookie = this.cookieService.get(this.MonsterBox_Hostname_Cookie);
@@ -30,38 +31,80 @@ export class AppComponent {
       this.deviceControllerHostName = cookie;
     }
   }
-  
+
   clickedConnect() {
     this.deviceControllerService.SetEndPoint(this.deviceControllerHostName).subscribe(q => {
       this.deviceEndPoint = q;
+      this.MonsterBox_IsConnected = true;
       this.cookieService.set(this.MonsterBox_Hostname_Cookie, this.deviceControllerHostName);
+
     });
   }
 
   clickedStart() {
     this.deviceControllerService.Start().subscribe(response => {
       if (response == true) {
-        this.messageService.add({key:'deviceresponse', severity:'success', summary:'Start: Accepted'});
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'Start: Accepted' });
       }
       else {
-        this.messageService.add({key:'deviceresponse',severity: 'error', summary:'Start: Invalid Response'})
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'Start: Invalid Response' })
       }
-    });    
+    });
   }
 
   clickedStop() {
     this.deviceControllerService.Stop().subscribe(response => {
       if (response == true) {
-        this.messageService.add({key:'deviceresponse', severity:'success', summary:'Stop: Accepted'});
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'Stop: Accepted' });
       }
       else {
-        this.messageService.add({key:'deviceresponse',severity: 'error', summary:'Stop: Invalid Response'})
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'Stop: Invalid Response' })
       }
-    });    
+    });
   }
 
-  changeDelayTimeLow(event: MouseEvent) {
-    this.deviceControllerService.ChangeDelayTimeLow().subscribe();
+  changeDelayTimeLow(value) {
+    this.deviceControllerService.SetDelayTimeLow(value).subscribe(response => {
+      if (response == true) {
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'changeDelayTimeLow: Accepted' });
+      }
+      else {
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'changeDelayTimeLow: Invalid Response' })
+      }
+    });
+  }
+
+  changeDelayTimeHigh(value) {
+    this.deviceControllerService.SetDelayTimeHigh(value).subscribe(response => {
+      if (response == true) {
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'changeDelayTimeHigh: Accepted' });
+      }
+      else {
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'changeDelayTimeHigh: Invalid Response' })
+      }
+    });
+  }
+
+  changeRepetitionsLow(value) {
+    this.deviceControllerService.SetRepetitionsLow(value).subscribe(response => {
+      if (response == true) {
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'changeRepetitionsLow: Accepted' });
+      }
+      else {
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'changeRepetitionsLow: Invalid Response' })
+      }
+    });
+  }
+
+  changeRepetitionsHigh(value) {
+    this.deviceControllerService.SetRepetitionsHigh(value).subscribe(response => {
+      if (response == true) {
+        this.messageService.add({ key: 'deviceresponse', severity: 'success', summary: 'changeRepetitionsHigh: Accepted' });
+      }
+      else {
+        this.messageService.add({ key: 'deviceresponse', severity: 'error', summary: 'changeRepetitionsHigh: Invalid Response' })
+      }
+    });
   }
 
 }
