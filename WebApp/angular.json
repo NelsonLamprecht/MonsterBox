@@ -27,11 +27,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [              
+            "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/nova-light/theme.css",
-              "./node_modules/primeng/resources/primeng.min.css",              
+              "./node_modules/primeng/resources/primeng.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -100,7 +100,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/nova-light/theme.css",
-              "./node_modules/primeng/resources/primeng.min.css",              
+              "./node_modules/primeng/resources/primeng.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -130,6 +130,10 @@
               "devServerTarget": "WebApp:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }
